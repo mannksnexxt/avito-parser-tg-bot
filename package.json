@@ -1,0 +1,19 @@
+{
+  "name": "avitoSniffer",
+  "version": "1.0.0",
+  "description": "Telegram bot for parse new Avito ads",
+  "main": "bot.js",
+  "scripts": {
+    "start": "nodemon src/bot.js"
+  },
+  "author": "moxemum",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "firebase-admin": "^9.11.0",
+    "telegraf": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
