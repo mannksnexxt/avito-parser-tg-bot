@@ -3,12 +3,16 @@ const { db } = require('../common/firebase');
 
 const main_keyboard = require('../keyboards/main');
 const links_keyboard = require('../keyboards/links');
+const back_keyboard = require('../keyboards/back');
 
+let replyMessage, keyboard;
 
 const linksScene = new BaseScene('linksScene');
 
 linksScene.enter(async ctx => {
 	const LINKS = ctx.session.links;
+	replyMessage = '◀️ <b>Возвращаемся...</b>';
+	keyboard = main_keyboard;
 	
 	if (LINKS?.length) {
 		let message = '🗒 <b>Список Ваших ссылок:</b>\n\n';
@@ -26,8 +30,17 @@ linksScene.enter(async ctx => {
 	
 });
 
-const message = '◀️ <b>Возвращаемся...</b>'
+linksScene.on('message', ctx => {
+	const message = ctx.message.text;
+	
+	if (message === 'Удалить ссылку') {
+		replyMessage = '⏩ <b>Идем дальше...</b>';
+		keyboard = back_keyboard;
 
-linksScene.leave(ctx => ctx.replyWithHTML(message, main_keyboard));
+		ctx.scene.enter('removeScene');
+	}
+})
+
+linksScene.leave(ctx => ctx.replyWithHTML(replyMessage, keyboard));
 
 module.exports = linksScene;

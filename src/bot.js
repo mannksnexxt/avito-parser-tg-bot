@@ -4,11 +4,12 @@ const { db } = require('./common/firebase');
 const startScene = require('./scenes/start');
 const addScene = require('./scenes/add');
 const linksScene = require('./scenes/links');
+const removeScene = require('./scenes/remove');
 
 
 
 
-const stage = new Stage([ addScene, startScene, linksScene ]);
+const stage = new Stage([ addScene, startScene, linksScene, removeScene ]);
 stage.hears('Назад', ctx => ctx.scene.leave());
 
 
@@ -30,13 +31,11 @@ bot.on('message', ctx => {
 			ctx.scene.enter('linksScene');
 			break;
 		default:
-			console.log(ctx.scene);
+			ctx.deleteMessage();
 			break;
 	}
 })
 
-
-// bot.command('/add', ctx => ctx.scene.enter('addScene'));
-
+// https://www.avito.ru/moskva_i_mo/muzykalnye_instrumenty/gitary_i_strunnye-ASgBAgICAUTEAsYK?cd=1&s=104
 
 bot.launch();
