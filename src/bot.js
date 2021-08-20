@@ -9,8 +9,14 @@ const runScene = require('./scenes/run');
 
 
 const stage = new Stage([ addScene, startScene, linksScene, removeScene, runScene ]);
-stage.hears('Назад', ctx => ctx.scene.leave());
-stage.hears('Остановить', ctx => ctx.scene.leave());
+stage.hears('⏪ Назад', ctx => {
+	ctx.deleteMessage();
+	return ctx.scene.leave();
+});
+stage.hears('⏹ Остановить', ctx => {
+	ctx.deleteMessage();
+	return ctx.scene.leave();
+});
 
 
 const bot = new Telegraf(process.env.TG_TOKEN);
@@ -24,13 +30,13 @@ bot.on('message', ctx => {
 	const message = ctx.message.text;
 
 	switch (message) {
-		case 'Добавить ссылку':
+		case '➕ Добавить ссылку':
 			ctx.scene.enter('addScene');
 			break;
-		case 'Мои ссылки':
+		case '📔 Мои ссылки':
 			ctx.scene.enter('linksScene');
 			break;
-		case 'Запустить':
+		case '🚀 Запустить':
 			ctx.scene.enter('runScene');
 			break;
 		default:

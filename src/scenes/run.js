@@ -14,6 +14,7 @@ runScene.enter(async ctx => {
 	let dataFromPrevRequests = [];
 
 	if (LINKS.length) {
+		ctx.deleteMessage();
 		ctx.session.TIMER = setInterval(async () => {
 			LINKS.forEach( async link => {
 				const lastItemData = await getLastItemFromAvitoPage(link.link)

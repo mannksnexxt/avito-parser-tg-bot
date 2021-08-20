@@ -1,7 +1,7 @@
 const { Markup } = require('telegraf');
 
 const back_keyboard = Markup.keyboard([
-	['Назад']
+	['⏪ Назад']
 ]).resize();
 
 module.exports = back_keyboard;

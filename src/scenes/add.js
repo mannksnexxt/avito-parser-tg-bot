@@ -8,6 +8,7 @@ let endMessage;
 
 
 const linkHandler = Telegraf.on('message', async ctx => {
+	ctx.deleteMessage();
 	const message = ctx.message.text;
 	const urlParam = 's=104'
 	const urlExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
@@ -30,6 +31,7 @@ const linkHandler = Telegraf.on('message', async ctx => {
 
 	ctx.session.link = link;
 
+	ctx.deleteMessage();
 	await ctx.replyWithHTML('✏️ <b>Отлично!</b> Теперь введите название категории:');
 	
 	return ctx.wizard.next();
@@ -39,7 +41,8 @@ const linkNameHandler = Telegraf.on('message', async ctx => {
 	const message = ctx.message.text;
 	const userId = String(ctx.from.id);
 
-	if (message !== 'Назад') {
+
+	if (message !== '⏪ Назад') {
 		ctx.session.linkName = message;
 		
 		ctx.session.links.push({
@@ -50,6 +53,7 @@ const linkNameHandler = Telegraf.on('message', async ctx => {
 		await db.ref(`users/${userId}/links`).set(ctx.session.links);
 		ctx.session.link = '';
 		ctx.session.linkName = '';
+		ctx.deleteMessage();
 
 		endMessage = '✅ <b>Ссылка успешно добавлена!</b>';
 	}

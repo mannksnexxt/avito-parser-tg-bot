@@ -10,6 +10,7 @@ let replyMessage, keyboard;
 const linksScene = new BaseScene('linksScene');
 
 linksScene.enter(async ctx => {
+	ctx.deleteMessage();
 	const LINKS = ctx.session.links;
 	replyMessage = '◀️ <b>Возвращаемся...</b>';
 	keyboard = main_keyboard(ctx);
@@ -23,7 +24,7 @@ linksScene.enter(async ctx => {
 		ctx.replyWithHTML(message, { 
 			reply_markup: {
 				keyboard: [
-					['Назад', 'Удалить ссылку']
+					['⏪ Назад', '🗑 Удалить ссылку']
 				],
 				resize_keyboard: true
 			},
@@ -39,7 +40,7 @@ linksScene.enter(async ctx => {
 linksScene.on('message', ctx => {
 	const message = ctx.message.text;
 	
-	if (message === 'Удалить ссылку') {
+	if (message === '🗑 Удалить ссылку') {
 		replyMessage = '⏩ <b>Идем дальше...</b>';
 		keyboard = back_keyboard;
 
