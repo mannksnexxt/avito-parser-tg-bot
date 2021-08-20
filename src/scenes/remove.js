@@ -35,6 +35,6 @@ removeScene.on('callback_query', async ctx => {
 
 const message = '◀️ <b>Возвращаемся...</b>'
 
-removeScene.leave(ctx => ctx.replyWithHTML(message, main_keyboard));
+removeScene.leave(ctx => ctx.replyWithHTML(message, main_keyboard(ctx)));
 
 module.exports = removeScene;

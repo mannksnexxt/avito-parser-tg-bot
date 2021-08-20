@@ -62,7 +62,7 @@ addScene.enter(ctx => {
 	endMessage = '🔸 <b>Добавление отменено.</b>';
 	return ctx.replyWithHTML('🔗 <b>Введите ссылку:</b>', back_keyboard)
 });
-addScene.leave(ctx => ctx.replyWithHTML(endMessage, main_keyboard));
+addScene.leave(ctx => ctx.replyWithHTML(endMessage, main_keyboard(ctx)));
 
 
 module.exports = addScene;

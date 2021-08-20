@@ -33,13 +33,8 @@ startScene.enter(async ctx => {
 		console.log(ctx.session.links);
 	}
 
-	await ctx.replyWithHTML(message, main_keyboard);
+	await ctx.replyWithHTML(message, main_keyboard(ctx));
 	return ctx.scene.leave();
 });
-
-
-
-
-// startScene.leave(ctx => ctx.replyWithHTML(message, main_keyboard));
 
 module.exports = startScene;

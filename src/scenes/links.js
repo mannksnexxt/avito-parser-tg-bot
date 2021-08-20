@@ -12,7 +12,7 @@ const linksScene = new BaseScene('linksScene');
 linksScene.enter(async ctx => {
 	const LINKS = ctx.session.links;
 	replyMessage = '◀️ <b>Возвращаемся...</b>';
-	keyboard = main_keyboard;
+	keyboard = main_keyboard(ctx);
 	
 	if (LINKS?.length) {
 		let message = '🗒 <b>Список Ваших ссылок:</b>\n\n';
@@ -20,7 +20,13 @@ linksScene.enter(async ctx => {
 			message += `🔗 <b><a href="${link.link}">${link.link_name}</a></b>\n`;
 		})
 		
-		ctx.replyWithHTML(message, links_keyboard, { 
+		ctx.replyWithHTML(message, { 
+			reply_markup: {
+				keyboard: [
+					['Назад', 'Удалить ссылку']
+				],
+				resize_keyboard: true
+			},
 			disable_web_page_preview: true 
 		});
 	} else {
