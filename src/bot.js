@@ -43,4 +43,4 @@ bot.on('message', ctx => {
 	}
 })
 
-bot.launch();
+module.exports = bot;
