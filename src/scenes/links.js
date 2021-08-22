@@ -1,5 +1,4 @@
 const { Scenes: { BaseScene } } = require('telegraf');
-const { db } = require('../common/firebase');
 
 const main_keyboard = require('../keyboards/main');
 const links_keyboard = require('../keyboards/links');
@@ -10,7 +9,7 @@ let replyMessage, keyboard;
 const linksScene = new BaseScene('linksScene');
 
 linksScene.enter(async ctx => {
-	ctx.deleteMessage();
+	await ctx.deleteMessage();
 	const LINKS = ctx.session.links;
 	replyMessage = '◀️ <b>Возвращаемся...</b>';
 	keyboard = main_keyboard(ctx);
@@ -21,17 +20,15 @@ linksScene.enter(async ctx => {
 			message += `🔗 <b><a href="${link.link}">${link.link_name}</a></b>\n`;
 		})
 		
-		ctx.replyWithHTML(message, { 
+		await ctx.replyWithHTML(message, { 
 			reply_markup: {
-				keyboard: [
-					['⏪ Назад', '🗑 Удалить ссылку']
-				],
+				keyboard: links_keyboard,
 				resize_keyboard: true
 			},
 			disable_web_page_preview: true 
 		});
 	} else {
-		ctx.replyWithHTML('🔸 <b>У вас пока что не ссылок.</b>');
+		await ctx.replyWithHTML('🔸 <b>У вас пока что не ссылок.</b>');
 		return ctx.scene.leave();
 	}
 	

@@ -1,5 +1,4 @@
 const { Telegraf, Scenes: { Stage }, session } = require('telegraf');
-const { db } = require('./common/firebase');
 
 const startScene = require('./scenes/start');
 const addScene = require('./scenes/add');
@@ -9,12 +8,12 @@ const runScene = require('./scenes/run');
 
 
 const stage = new Stage([ addScene, startScene, linksScene, removeScene, runScene ]);
-stage.hears('⏪ Назад', ctx => {
-	ctx.deleteMessage();
+stage.hears('⏪ Назад', async ctx => {
+	await ctx.deleteMessage();
 	return ctx.scene.leave();
 });
-stage.hears('⏹ Остановить', ctx => {
-	ctx.deleteMessage();
+stage.hears('⏹ Остановить', async ctx => {
+	await ctx.deleteMessage();
 	return ctx.scene.leave();
 });
 
@@ -41,10 +40,7 @@ bot.on('message', ctx => {
 			break;
 		default:
 			ctx.deleteMessage();
-			break;
 	}
 })
-
-// https://www.avito.ru/moskva_i_mo/muzykalnye_instrumenty/gitary_i_strunnye-ASgBAgICAUTEAsYK?cd=1&s=104
 
 bot.launch();

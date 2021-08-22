@@ -29,8 +29,6 @@ startScene.enter(async ctx => {
 		} else {
 			ctx.session.links = [];
 		}
-
-		console.log(ctx.session.links);
 	}
 
 	await ctx.replyWithHTML(message, main_keyboard(ctx));

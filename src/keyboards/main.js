@@ -7,7 +7,7 @@ const main_keyboard = (ctx) => {
 		keyboard = ['🚀 Запустить', '➕ Добавить ссылку', '📔 Мои ссылки'];
 	}
 
-	return Markup.keyboard([keyboard]);
+	return Markup.keyboard([keyboard]).resize();
 }
 
 module.exports = main_keyboard;

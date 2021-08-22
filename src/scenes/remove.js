@@ -8,7 +8,7 @@ const remove_keyboard = require('../keyboards/remove');
 const removeScene = new BaseScene('removeScene');
 
 removeScene.enter(async ctx => {
-	ctx.deleteMessage();
+	await ctx.deleteMessage();
 	ctx.reply('📲 Нажмите на категорию, которую хотите удалить 📲', remove_keyboard(ctx.session.links));
 });
 
@@ -20,9 +20,9 @@ removeScene.on('callback_query', async ctx => {
 	ctx.session.links.splice( linkIndex, 1);
 	await db.ref(`users/${userId}/links`).set(ctx.session.links);
 	
-	ctx.answerCbQuery('✅ Ссылка успешно удалена!')
+	await ctx.answerCbQuery('✅ Ссылка успешно удалена!');
 	if (!ctx.session.links.length) {
-		ctx.editMessageText('🔗 Ссылок больше не осталось 🔗');
+		await ctx.editMessageText('🔗 Ссылок больше не осталось 🔗');
 		return ctx.scene.leave();
 	}
 	return ctx.editMessageText('📲 Нажмите на категорию, которую хотите удалить 📲', remove_keyboard(ctx.session.links));

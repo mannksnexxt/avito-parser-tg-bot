@@ -5,8 +5,6 @@ const main_keyboard = require('../keyboards/main');
 const run_keyboard = require('../keyboards/run');
 
 
-
-
 const runScene = new BaseScene('runScene');
 
 runScene.enter(async ctx => {
@@ -33,22 +31,21 @@ runScene.enter(async ctx => {
 							const message = `
 							🔎 <b>${link.link_name}</b>\n<a href="${lastItemData.url}">${lastItemData.title}</a> : <b>${lastItemData.price}</b>`
 
-							ctx.replyWithPhoto({ url: lastItemData.imageUrl }, { caption: message, parse_mode: 'HTML' });
+							await ctx.replyWithPhoto({ url: lastItemData.imageUrl }, { caption: message, parse_mode: 'HTML' });
 
-							prevItemData.currentId = lastItemData.id
+							prevItemData.currentId = lastItemData.id;
 						}
 					}
 				}
 			})
 			
-			const stamp = new Date()
-			console.log('- Request from ' + ctx.chat.first_name + ' | ' + stamp.getHours() + ':' + stamp.getMinutes())
+			const stamp = new Date();
+			console.log(`- Request from ${ctx.chat.first_name} | ${stamp.getHours()} : ${stamp.getMinutes()}`);
 			
 		}, 15000)
 
 
 		ctx.replyWithHTML('🚀 <b>Детектор запущен!</b> 🚀', run_keyboard);
-
 	}
 	
 });

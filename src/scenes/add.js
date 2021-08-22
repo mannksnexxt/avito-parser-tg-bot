@@ -8,7 +8,7 @@ let endMessage;
 
 
 const linkHandler = Telegraf.on('message', async ctx => {
-	ctx.deleteMessage();
+	await ctx.deleteMessage();
 	const message = ctx.message.text;
 	const urlParam = 's=104'
 	const urlExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
@@ -26,15 +26,18 @@ const linkHandler = Telegraf.on('message', async ctx => {
 			link = message;	
 		}
 	} else {
-		return ctx.replyWithHTML('🔸 Ссылка должна быть вида: <b>https://www.аvitо.ru/moskva_i_mo/muzy...</b>');
+		return ctx.replyWithHTML('🔸 <b>Ссылка должна быть вида: https://www.аvitо.ru/moskva_i_mo/muzy...</b>');
 	}
-
-	ctx.session.link = link;
-
-	ctx.deleteMessage();
-	await ctx.replyWithHTML('✏️ <b>Отлично!</b> Теперь введите название категории:');
 	
-	return ctx.wizard.next();
+	if (!ctx.session.links.find(l => l.link === link)) {
+		ctx.session.link = link;
+
+		await ctx.deleteMessage();
+		await ctx.replyWithHTML('✏️ <b>Отлично!</b> Теперь введите название категории:');
+		
+		return ctx.wizard.next();
+	}
+	return ctx.replyWithHTML('❗️ <b>У Вас уже есть такая ссылка!</b>');
 })
 
 const linkNameHandler = Telegraf.on('message', async ctx => {
@@ -53,7 +56,7 @@ const linkNameHandler = Telegraf.on('message', async ctx => {
 		await db.ref(`users/${userId}/links`).set(ctx.session.links);
 		ctx.session.link = '';
 		ctx.session.linkName = '';
-		ctx.deleteMessage();
+		await ctx.deleteMessage();
 
 		endMessage = '✅ <b>Ссылка успешно добавлена!</b>';
 	}
