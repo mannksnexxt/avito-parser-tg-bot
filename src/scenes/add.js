@@ -8,7 +8,6 @@ let endMessage;
 
 
 const linkHandler = Telegraf.on('message', async ctx => {
-	await ctx.deleteMessage();
 	const message = ctx.message.text;
 	const urlParam = 's=104'
 	const urlExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
@@ -26,6 +25,7 @@ const linkHandler = Telegraf.on('message', async ctx => {
 			link = message;	
 		}
 	} else {
+		await ctx.deleteMessage();
 		return ctx.replyWithHTML('🔸 <b>Ссылка должна быть вида: https://www.аvitо.ru/moskva_i_mo/muzy...</b>');
 	}
 	
